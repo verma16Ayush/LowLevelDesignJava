@@ -1,21 +1,21 @@
-package com.avr.designpatterns.decorator;
+package com.avr.designpatterns.decorator.Implementations;
 
 import com.avr.designpatterns.decorator.abstractions.AbstractCoffeeDecorator;
 import com.avr.designpatterns.decorator.abstractions.ICoffee;
 
-public class SugarCoffeeDecorator extends AbstractCoffeeDecorator {
+public class MilkCoffeeDecorator extends AbstractCoffeeDecorator {
 
-    SugarCoffeeDecorator(ICoffee coffee) {
+    public MilkCoffeeDecorator(ICoffee coffee) {
         super(coffee);
     }
 
     @Override
     public String getDescription() {
-        return super.getDescription() + ", sugar";
+        return super.getDescription() + ", Milk";
     }
 
     @Override
     public double getCost() {
-        return super.getCost() + 0.5;
+        return super.getCost() + 1.5;
     }
 }

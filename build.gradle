@@ -1,6 +1,9 @@
-plugins {
-    id 'java'
-}
+    plugins {
+        id 'java' // Or 'groovy', 'kotlin', etc.
+        id 'io.freefair.lombok' version '8.7.1' // Use the latest compatible version
+        // Or for the alternative plugin:
+        // id 'name.remal.lombok' version '3.1.1' // Use the latest compatible version
+    }
 
 group = 'com.avr'
 version = '1.0-SNAPSHOT'
@@ -13,6 +16,9 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    compileOnly 'org.projectlombok:lombok:1.18.8'
+    annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    // Lombok dependency is managed by the 'io.freefair.lombok' plugin
 }
 
 test {

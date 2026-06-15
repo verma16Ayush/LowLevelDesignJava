@@ -1,5 +1,8 @@
 package com.avr.designpatterns.decorator;
 
+import com.avr.designpatterns.decorator.Implementations.MilkCoffeeDecorator;
+import com.avr.designpatterns.decorator.Implementations.SimpleCoffee;
+import com.avr.designpatterns.decorator.Implementations.SugarCoffeeDecorator;
 import com.avr.designpatterns.decorator.abstractions.ICoffee;
 
 public class DecoratorPatternDemo {

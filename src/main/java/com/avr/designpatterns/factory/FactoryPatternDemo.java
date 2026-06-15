@@ -1,4 +1,5 @@
 package com.avr.designpatterns.factory;
+import com.avr.designpatterns.factory.Implementations.ShapeFactory;
 import com.avr.designpatterns.factory.abstractions.IShape;
 
 public class FactoryPatternDemo {

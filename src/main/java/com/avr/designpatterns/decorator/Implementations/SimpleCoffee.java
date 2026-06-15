@@ -1,4 +1,4 @@
-package com.avr.designpatterns.decorator;
+package com.avr.designpatterns.decorator.Implementations;
 
 import com.avr.designpatterns.decorator.abstractions.ICoffee;
 
