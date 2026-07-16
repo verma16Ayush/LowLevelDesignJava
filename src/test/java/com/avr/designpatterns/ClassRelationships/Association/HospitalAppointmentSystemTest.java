@@ -1,13 +1,11 @@
-package com.avr;
+package com.avr.designpatterns.ClassRelationships.Association;
 
 import org.junit.jupiter.api.Test;
+
+
 import java.time.LocalDateTime;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
-
-
-
-
 
 class HospitalAppointmentSystemTest {
 

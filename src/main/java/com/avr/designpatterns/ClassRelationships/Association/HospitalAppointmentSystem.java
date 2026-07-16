@@ -1,4 +1,4 @@
-package com.avr;
+package com.avr.designpatterns.ClassRelationships.Association;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
