@@ -13,7 +13,7 @@ public class TitleCaseFormatter implements TextFormatter {
         List<StringBuilder> sb = new ArrayList<>();
         Arrays.stream(s.split(" ")).forEach(word -> sb.add(new StringBuilder(word)));
         sb.forEach(word -> {
-            Character.toUpperCase(word.charAt(0));
+            word.setCharAt(0, Character.toUpperCase(word.charAt(0)));
         });
         StringBuilder ans = new StringBuilder();
         sb.forEach(word -> ans.append(word).append(" "));

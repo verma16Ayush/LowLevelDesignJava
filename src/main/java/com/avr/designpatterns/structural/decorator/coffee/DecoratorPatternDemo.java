@@ -1,9 +1,9 @@
-package com.avr.designpatterns.structural.decorator;
+package com.avr.designpatterns.structural.decorator.coffee;
 
-import com.avr.designpatterns.structural.decorator.Implementations.MilkCoffeeDecorator;
-import com.avr.designpatterns.structural.decorator.Implementations.SimpleCoffee;
-import com.avr.designpatterns.structural.decorator.Implementations.SugarCoffeeDecorator;
-import com.avr.designpatterns.structural.decorator.abstractions.ICoffee;
+import com.avr.designpatterns.structural.decorator.coffee.Implementations.MilkCoffeeDecorator;
+import com.avr.designpatterns.structural.decorator.coffee.Implementations.SimpleCoffee;
+import com.avr.designpatterns.structural.decorator.coffee.Implementations.SugarCoffeeDecorator;
+import com.avr.designpatterns.structural.decorator.coffee.abstractions.ICoffee;
 
 public class DecoratorPatternDemo {
     public static void main(String[] args) {

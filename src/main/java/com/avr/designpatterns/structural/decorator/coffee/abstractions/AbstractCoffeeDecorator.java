@@ -1,4 +1,4 @@
-package com.avr.designpatterns.structural.decorator.abstractions;
+package com.avr.designpatterns.structural.decorator.coffee.abstractions;
 
 public abstract class AbstractCoffeeDecorator implements ICoffee {
     protected ICoffee coffee;

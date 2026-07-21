@@ -1,6 +1,6 @@
-package com.avr.designpatterns.structural.decorator.Implementations;
+package com.avr.designpatterns.structural.decorator.coffee.Implementations;
 
-import com.avr.designpatterns.structural.decorator.abstractions.ICoffee;
+import com.avr.designpatterns.structural.decorator.coffee.abstractions.ICoffee;
 
 public class SimpleCoffee implements ICoffee {
     
