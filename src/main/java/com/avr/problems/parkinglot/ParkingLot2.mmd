@@ -1,0 +1,51 @@
+---
+config:
+  look: handDrawn
+  layout: elk
+---
+classDiagram
+class ParkingLot {
+    - List~Floor~ floors
+    - Gate entryGate
+    - Gate exitGate
+
+    + setFloors(List~Floor~) : void
+    + getFloors() : List~Floor~
+    + setEntryGate(Gate) : void
+    + getEntryGate(Gate) : void
+    + setExitGate(Gate) : void
+    + getExitGate(Gate) : void
+}
+
+class Floor {
+<<interface>>
+    - List~ParkingSpot~ parkingSpots
+
+    getParkingSpots() : List~ParkingSpot~
+    setParkingSpots(List~ParkingSpots~) : void
+    addParkingSpots(ParkingSpot) : void
+}
+
+class ParkingSpot {
+<<interface>>
+    - List<VehicleType> supportedVehicleTypes
+    - isAvailable
+    - ChargingStrategy
+    - Vehicle OccupiedBy
+
+    + isAvailable() : boolean
+    + setIsAvailable() : boolean
+    + addSupportedVehicle(VehicleType) : void
+    + isVehicleSupported(VehicleType) : void
+
+}
+
+class VehicleType{
+    <<enumeration>> 
+}
+
+
+
+ParkingLot"1" *-- "*"Floor: owns
+Floor"1" *-- "*"ParkingSpot: owns
+ParkingSpot"1" -- "*"VehicleType
