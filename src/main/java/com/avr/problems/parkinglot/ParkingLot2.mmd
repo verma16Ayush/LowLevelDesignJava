@@ -1,7 +1,7 @@
 ---
 config:
+  theme: dark
   look: handDrawn
-  layout: elk
 ---
 classDiagram
 class ParkingLot {
@@ -23,7 +23,8 @@ class Floor {
 
     getParkingSpots() : List~ParkingSpot~
     setParkingSpots(List~ParkingSpots~) : void
-    addParkingSpots(ParkingSpot) : void
+    addParkingSpots(ParkingSpot) : String
+    removeParkingSpot(String parkingSpotId)
 }
 
 class ParkingSpot {
@@ -36,16 +37,74 @@ class ParkingSpot {
     + isAvailable() : boolean
     + setIsAvailable() : boolean
     + addSupportedVehicle(VehicleType) : void
-    + isVehicleSupported(VehicleType) : void
+    + isVehicleSupported(VehicleType) : boolean
+    + setVehicle(Vehicle) : void
+    + removeVehicle() : void
+    + getVehicle() : Vehicle 
+}
 
+class Vehicle {
+    <<interface>>
+    List~VehicleType~ types
+    String registrationNumber
 }
 
 class VehicleType{
     <<enumeration>> 
 }
 
+class Gate {
+    <<interface>>
+    -GateType type
+    -String gateId
 
+    +getGateType() : GateType
+    +getGateId() : String
+}
+
+class EntryGate {
+    - String Id
+    - GateType type
+
+    + generateTicket(ChargingStrategy, ParkingSpot) : Ticket
+    + findParkingSpot(ParkingSpotFindingStrategy) : ParkingSpot
+}
+
+class ExitGate {
+    - String Id
+    - GateType type
+
+    + calculatePrice(Ticket) : BigDecimal
+
+}
+
+class Ticket {
+    - Instant issuedAt
+    - Instant exitAt
+    - ParkingSpot parkingSpot
+    - Vehicle vehicle
+    - ChargingStrategy chargingStrategy
+
+    + setExitInstantToNow()
+}
+
+class ChargingStrategy {
+    <<interface>>
+}
+
+class ParkingSpotFindingStrategy {
+    <<interface>> 
+}
 
 ParkingLot"1" *-- "*"Floor: owns
 Floor"1" *-- "*"ParkingSpot: owns
 ParkingSpot"1" -- "*"VehicleType
+ParkingSpot"1" -- "1"Vehicle
+Vehicle"1" -- "*"VehicleType
+ParkingLot"1" -- "*"Gate
+Vehicle -- Ticket
+EntryGate ..|> Gate
+EntryGate ..> ChargingStrategy
+EntryGate ..> ParkingSpotFindingStrategy
+ExitGate ..> Ticket
+ExitGate ..|> Gate
