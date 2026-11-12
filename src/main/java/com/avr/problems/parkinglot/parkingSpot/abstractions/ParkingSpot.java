@@ -9,7 +9,10 @@ public interface ParkingSpot {
     void setIsAvailable(boolean isAvailable);
     void addSupportedVehicleType(VehicleType type);
     boolean isVehicleSupported(Vehicle vehicle);
-    boolean setVehicle(Vehicle vehicle) throws UnsupportedVehicleException;
+    boolean reserveSpot(Vehicle vehicle) throws UnsupportedVehicleException, InterruptedException;
+    int getDistanceFromExit();
+    int getDistanceFromEntrance();
+    int getFloor();
     void removeVehicle();
     Vehicle getOccupyingVehicle();
 }

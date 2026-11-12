@@ -1,6 +1,12 @@
 package com.avr.problems.parkinglot.parkingSpot;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.Condition;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import com.avr.problems.parkinglot.parkingSpot.abstractions.ParkingSpot;
 import com.avr.problems.parkinglot.exceptions.UnsupportedVehicleException;
@@ -8,20 +14,39 @@ import com.avr.problems.parkinglot.strategy.abstractions.ChargingStrategy;
 import com.avr.problems.parkinglot.vehicle.VehicleType;
 import com.avr.problems.parkinglot.vehicle.abstractions.Vehicle;
 
-import lombok.Getter;
+import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Setter;
 
-@Getter 
-@Setter 
+@Data 
 public class CustomParkingSpot implements ParkingSpot {
+
+    String id;
     List<VehicleType> supportedVehicleTypes;
+
+    @Setter(AccessLevel.NONE)
     boolean isAvailable;
+
     ChargingStrategy chargingStrategy;
+    
+    @Setter(AccessLevel.NONE)
     Vehicle occupiedBy;
 
-    public CustomParkingSpot(List<VehicleType> vehicleTypes, ChargingStrategy chargingStrategy) {
-        this.supportedVehicleTypes = List.copyOf(vehicleTypes);
+    int distanceFromExit;
+    int distanceFromEntrance;
+    int floor;
+
+    Lock lock = new ReentrantLock();
+    Condition isOccupied = lock.newCondition();
+    Condition isVacant = lock.newCondition();
+
+    public CustomParkingSpot(List<VehicleType> vehicleTypes, ChargingStrategy chargingStrategy, int distanceFromExit, int distanceFromEntrance) {
+        this.id = UUID.randomUUID().toString().substring(0, 5);
+        this.supportedVehicleTypes = new ArrayList<>(vehicleTypes);
         this.chargingStrategy = chargingStrategy;
+        this.distanceFromEntrance = distanceFromEntrance;
+        this.distanceFromExit = distanceFromExit;
+        this.isAvailable = true;
     }
 
     public boolean isAvailable() {
@@ -46,26 +71,46 @@ public class CustomParkingSpot implements ParkingSpot {
         for(var type : this.getSupportedVehicleTypes()) {
             spotMask = spotMask | type.getCode();
         }
-        return (vehicleMask & spotMask) == spotMask;
+        return (vehicleMask & spotMask) == vehicleMask;
     }
-    public boolean setVehicle(Vehicle vehicle) throws UnsupportedVehicleException {
+
+    
+
+    public boolean reserveSpot(Vehicle vehicle) throws UnsupportedVehicleException, InterruptedException {
         if(!isVehicleSupported(vehicle)) {
             throw new UnsupportedVehicleException();
         }
-        if(this.isAvailable) {
-            this.setIsAvailable(false);
-            this.setVehicle(vehicle);
-            return true;
+        if(lock.tryLock(5, TimeUnit.SECONDS)) {
+            try {
+                while(!this.isAvailable) {
+                    isVacant.await();
+                }
+                this.setIsAvailable(false);
+                this.occupiedBy = vehicle;
+                isOccupied.signalAll();
+                return true;
+            } finally {
+                lock.unlock();
+            }
+        } else {
+            System.out.println("timed out locking spot");
+            return false;
         }
-        return false;
     }
 
     public void removeVehicle() {
-        if(this.getOccupyingVehicle() == null && !this.isAvailable) {
-            throw new UnsupportedOperationException("spot already vacant");
+        lock.lock();
+        try {
+            if(this.getOccupyingVehicle() == null && this.isAvailable) {
+                isVacant.signalAll();
+                throw new UnsupportedOperationException("spot already vacant");
+            }
+            this.occupiedBy = null;
+            this.setIsAvailable(true);
+            isVacant.signalAll();
+        } finally {
+            lock.unlock();
         }
-        this.setOccupiedBy(null);
-        this.setIsAvailable(true);
     }
 
     public Vehicle getOccupyingVehicle() {

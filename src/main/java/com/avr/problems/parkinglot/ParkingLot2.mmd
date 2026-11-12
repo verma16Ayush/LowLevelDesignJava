@@ -33,6 +33,9 @@ class ParkingSpot {
     - isAvailable
     - ChargingStrategy
     - Vehicle OccupiedBy
+    - DistanceFromExit
+    - DistanceFromEntrance
+    - Floor
 
     + isAvailable() : boolean
     + setIsAvailable() : boolean
@@ -41,6 +44,9 @@ class ParkingSpot {
     + setVehicle(Vehicle) : void
     + removeVehicle() : void
     + getVehicle() : Vehicle 
+    + getDistanceFromExit : int
+    + getDistanceFromEntrance : int
+    + getFloor : int
 }
 
 class Vehicle {
@@ -108,3 +114,4 @@ EntryGate ..> ChargingStrategy
 EntryGate ..> ParkingSpotFindingStrategy
 ExitGate ..> Ticket
 ExitGate ..|> Gate
+ParkingSpot"*" --o "1"Gate 

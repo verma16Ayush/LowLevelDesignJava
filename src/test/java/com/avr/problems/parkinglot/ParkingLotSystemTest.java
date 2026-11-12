@@ -464,7 +464,7 @@ class ParkingLotSystemTest {
                 dummyChargingStrategy);
             Vehicle vehicle = VehicleFactory.createFourWheelerDiesel("MH12AB1234");
             
-            assertThrows(UnsupportedVehicleException.class, () -> spot.setVehicle(vehicle));
+            assertThrows(UnsupportedVehicleException.class, () -> spot.reserveSpot(vehicle));
         }
 
         @Test
@@ -482,7 +482,7 @@ class ParkingLotSystemTest {
             // This should cause StackOverflowError, but in practice the method returns without
             // properly setting the occupying vehicle (occupyingVehicle remains null)
             // This test documents the buggy behavior
-            boolean result = assertDoesNotThrow(() -> spot.setVehicle(vehicle));
+            boolean result = assertDoesNotThrow(() -> spot.reserveSpot(vehicle));
             assertTrue(result); // Method returns true
             assertFalse(spot.isAvailable()); // Availability is set to false
             assertNull(spot.getOccupyingVehicle()); // BUG: occupyingVehicle is NOT set (remains null)
@@ -879,7 +879,7 @@ class ParkingLotSystemTest {
                 }
 
                 @Override
-                public boolean setVehicle(Vehicle vehicle) throws UnsupportedVehicleException {
+                public boolean reserveSpot(Vehicle vehicle) throws UnsupportedVehicleException {
                     if (!isVehicleSupported(vehicle) || !available) return false;
                     this.vehicle = vehicle;
                     this.available = false;
@@ -960,7 +960,7 @@ class ParkingLotSystemTest {
         void setVehicleNullHandling() {
             CustomParkingSpot spot = new CustomParkingSpot(List.of(VehicleType.FOUR_WHEELER), dummyChargingStrategy);
             
-            assertThrows(NullPointerException.class, () -> spot.setVehicle(null));
+            assertThrows(NullPointerException.class, () -> spot.reserveSpot(null));
         }
 
         @Test
