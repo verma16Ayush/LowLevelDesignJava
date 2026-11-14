@@ -17,7 +17,7 @@ import com.avr.problems.parkinglot.vehicle.abstractions.Vehicle;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
-te
+
 import java.util.Collections;
 
 @Data 
