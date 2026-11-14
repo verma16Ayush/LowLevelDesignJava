@@ -17,6 +17,8 @@ import com.avr.problems.parkinglot.vehicle.abstractions.Vehicle;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
+te
+import java.util.Collections;
 
 @Data 
 public class CustomParkingSpot implements ParkingSpot {
@@ -55,6 +57,10 @@ public class CustomParkingSpot implements ParkingSpot {
 
     public void setIsAvailable(boolean isAvailable) {
         this.isAvailable = isAvailable;
+    }
+
+    public List<VehicleType> getSupportedVehicleTypes() {
+        return Collections.unmodifiableList(supportedVehicleTypes);
     }
 
     public void addSupportedVehicleType(VehicleType vehicleType) {
@@ -103,7 +109,6 @@ public class CustomParkingSpot implements ParkingSpot {
         try {
             if(this.getOccupyingVehicle() == null && this.isAvailable) {
                 isVacant.signalAll();
-                throw new UnsupportedOperationException("spot already vacant");
             }
             this.occupiedBy = null;
             this.setIsAvailable(true);

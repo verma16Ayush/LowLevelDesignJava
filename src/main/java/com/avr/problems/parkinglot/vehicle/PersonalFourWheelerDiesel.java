@@ -11,7 +11,7 @@ public class PersonalFourWheelerDiesel implements Vehicle {
     String registrationNumber;
     List<VehicleType> vehicleTypes; 
 
-    PersonalFourWheelerDiesel(String registrationNumber) {
+    public PersonalFourWheelerDiesel(String registrationNumber) {
         this.registrationNumber = registrationNumber;
         this.vehicleTypes = List.of(VehicleType.FOUR_WHEELER, VehicleType.DIESEL, VehicleType.PERSONAL);
     }

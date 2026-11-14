@@ -19,7 +19,7 @@ public class EntranceGate implements Gate {
     GateType gateType;
     List<ParkingSpot> parkingSpots;
 
-    EntranceGate(GateType gateType, List<ParkingSpot> parkingSpots) {
+    public EntranceGate(GateType gateType, List<ParkingSpot> parkingSpots) {
         this.gateId = UUID.randomUUID().toString().substring(0, 5);
         this.gateType = gateType;
         this.parkingSpots = parkingSpots;
@@ -28,7 +28,7 @@ public class EntranceGate implements Gate {
     Ticket generateTicket(Vehicle vehicle, ChargingStrategy chargingStrategy, ParkingSpotFindingStrategy spotFindingStrategy) {
         ParkingSpot foundSpot = null;
         for(int i = 0; i < 5; i++) {
-            foundSpot = spotFindingStrategy.findParkingSpot(this.parkingSpots);
+            foundSpot = spotFindingStrategy.findParkingSpot(this.parkingSpots, vehicle);
             if(foundSpot != null)
                 break;
         }

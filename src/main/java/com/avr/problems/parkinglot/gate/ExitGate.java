@@ -15,7 +15,7 @@ public class ExitGate implements Gate {
     String gateId;
     GateType gateType;
 
-    ExitGate(GateType gateType) {
+    public ExitGate(GateType gateType) {
         this.gateId = UUID.randomUUID().toString().substring(0, 5);
         this.gateType = gateType;
     }

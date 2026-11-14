@@ -11,7 +11,7 @@ import lombok.Getter;
 public class CustomVehicle implements Vehicle{
     String registrationNumber;
     List<VehicleType> vehicleTypes;
-    CustomVehicle(String registrationNumber, VehicleType... vehicleTypes) {
+    public CustomVehicle(String registrationNumber, VehicleType... vehicleTypes) {
         this.registrationNumber = registrationNumber;
         this.vehicleTypes = new ArrayList<>();
         for(var tp : vehicleTypes) {
